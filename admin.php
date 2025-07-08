@@ -14,6 +14,12 @@ function is_text($file) {
   $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
   return in_array($ext, ['txt','csv','md','log','json','xml','html','css','js','php']);
 }
+function human_filesize($bytes) {
+  if ($bytes < 1024) return $bytes . ' B';
+  if ($bytes < 1048576) return round($bytes/1024,2) . ' KB';
+  if ($bytes < 1073741824) return round($bytes/1048576,2) . ' MB';
+  return round($bytes/1073741824,2) . ' GB';
+}
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -64,7 +70,7 @@ function is_text($file) {
             <?php foreach ($files as $file): ?>
               <tr>
                 <td><?php echo htmlspecialchars($file); ?></td>
-                <td><?php echo filesize($dir . $file) ? number_format(filesize($dir . $file)/1048576, 2) . ' MB' : '-'; ?></td>
+                <td><?php echo filesize($dir . $file) ? human_filesize(filesize($dir . $file)) : '-'; ?></td>
                 <td><?php echo date('d/m/Y H:i', filemtime($dir . $file)); ?></td>
                 <td>
                   <a class="action-btn" href="download.php?file=<?php echo urlencode($file); ?>">Tải về</a>
