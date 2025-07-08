@@ -13,7 +13,7 @@ function respond($msg, $http_code = 200, $json = false) {
 }
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!isset($_FILES['file'])) {
-        respond('Không nhận được file.', 400);
+        respond(['error' => 'Không nhận được file.'], 400, true);
     }
     $files = $_FILES['file'];
     // Nếu chỉ upload 1 file, $_FILES['file']['name'] là string, nếu nhiều file là mảng
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($conflicts)) {
         respond(['conflicts' => $conflicts], 409, true);
     }
-    // Nếu là AJAX (progress), trả về text cho từng file
+    // Luôn trả về JSON nếu là AJAX
     if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) || isset($_SERVER['HTTP_ORIGIN'])) {
         respond($results, 200, true);
     } else {
