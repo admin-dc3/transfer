@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $tmp  = $is_multi ? $files['tmp_name'][$i] : $files['tmp_name'];
         $err  = $is_multi ? $files['error'][$i] : $files['error'];
         if ($err !== UPLOAD_ERR_OK) {
-            $results[] = "$name: Lỗi khi upload.";
+            $results[] = "$name: Lỗi khi upload (mã lỗi $err).";
             continue;
         }
         if ($size > 2 * 1024 * 1024 * 1024) {
@@ -63,12 +63,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         // Nếu ghi đè thì giữ nguyên $target
         if (!is_dir(UPLOAD_DIR)) {
-            mkdir(UPLOAD_DIR, 0777, true);
+            if (!mkdir(UPLOAD_DIR, 0777, true)) {
+                $results[] = "$filename: Không tạo được thư mục uploads. Kiểm tra quyền ghi!";
+                continue;
+            }
+        }
+        if (!is_writable(UPLOAD_DIR)) {
+            $results[] = "$filename: Thư mục uploads không cho phép ghi. Hãy cấp quyền ghi (chmod 777)!";
+            continue;
+        }
+        if (!is_uploaded_file($tmp)) {
+            $results[] = "$filename: File tạm không hợp lệ.";
+            continue;
         }
         if (move_uploaded_file($tmp, $target)) {
             $results[] = "$filename: Upload thành công!";
         } else {
-            $results[] = "$filename: Không thể lưu file.";
+            $results[] = "$filename: Không thể lưu file. Kiểm tra quyền ghi hoặc lỗi hệ thống.";
         }
     }
     if (!empty($conflicts)) {
