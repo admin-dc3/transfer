@@ -22,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Đăng nhập admin</title>
+  <link rel="icon" href="a.png" type="image/png">
   <link rel="stylesheet" href="style.css">
   <style>
     body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: #18191a; }
