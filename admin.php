@@ -51,7 +51,8 @@ function sort_link($label, $col, $sort, $order) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quản trị file</title>
+  <title>Quản trị</title>
+  <link rel="icon" href="a.png" type="image/png">
   <link rel="stylesheet" href="style.css">
   <style>
     .modal-bg { position: fixed; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); z-index:9999; display:none; align-items:center; justify-content:center; }
